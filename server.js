@@ -4,6 +4,7 @@
 // init project
 const express = require("express");
 const bodyParser = require("body-parser");
+const feedparser = require("./feedparser");
 const app = express();
 const fs = require("fs");
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -48,6 +49,21 @@ db.serialize(() => {
 // http://expressjs.com/en/starter/basic-routing.html
 app.get("/", (request, response) => {
   response.sendFile(`${__dirname}/views/index.html`);
+});
+
+// API endpoint to parse an RSS/Atom feed.
+app.get("/api/parse/:feed", async function(request, response) {
+  // Try to parse the feed, and return the result to the API client.
+  feedparser
+    .parse(request.params.feed)
+    .then(data => {
+      // Success! Return the result to the API client.
+      response.send(data);
+    })
+    .catch(error => {
+      // Oh no! Return the error to the API client.
+      response.send(error);
+    });
 });
 
 // endpoint to get all the dreams in the database

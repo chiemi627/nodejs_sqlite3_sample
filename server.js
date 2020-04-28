@@ -5,6 +5,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const feedparser = require("./feedparser");
+const opmlparser = require("./opmlparser");
 const app = express();
 const fs = require("fs");
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -49,6 +50,22 @@ db.serialize(() => {
 // http://expressjs.com/en/starter/basic-routing.html
 app.get("/", (request, response) => {
   response.sendFile(`${__dirname}/views/index.html`);
+});
+
+app.get("/opml", async function(request, response) {
+  opmlparser.getFeedsFromOPML().then(data => {
+    const feeds = [];
+    data.forEach((feed, index) => {
+      feedparser.parse(feed).then(items => {
+        feeds.push(items);
+        if (index === data.length - 1) { response.send(feeds); }
+      }).catch(error => {
+        response.send({ error: error });
+      });
+    });
+  }).catch(error => {
+    response.send({ error: error });
+  });
 });
 
 // API endpoint to parse an RSS/Atom feed.

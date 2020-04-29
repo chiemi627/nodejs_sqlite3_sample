@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<opml version="2.0">
+	<head>
+		<title>subscriptions.opml</title>
+		<dateCreated>Tue, 28 Apr 2020 13:56:00 GMT</dateCreated>
+		<dateModified>Tue, 28 Apr 2020 13:56:00 GMT</dateModified>
+		<ownerName>Glitch</ownerName>
+  </head>
+	<body>
+    <outline text="Glitch on Dev.to" description="Posts by the Glitch team on Dev.to" htmlUrl="https://dev.to/glitch/" language="unknown" title="Glitch on Dev.to" type="rss" version="RSS2" xmlUrl="https://dev.to/feed/glitch/"/>
+		<outline text="Angelo on Dev.to" description="Posts by Angelo Stavrow on Dev.to" htmlUrl="https://dev.to/angelostavrow/" language="unknown" title="Angelo on Dev.to" type="rss" version="RSS2" xmlUrl="https://dev.to/feed/angelostavrow/"/>
+  </body>
+</opml>

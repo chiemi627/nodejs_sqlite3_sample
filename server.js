@@ -5,6 +5,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const feedparser = require("./feedparser");
+const opmlparser = require("./opmlparser");
 const app = express();
 const fs = require("fs");
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -49,6 +50,30 @@ db.serialize(() => {
 // http://expressjs.com/en/starter/basic-routing.html
 app.get("/", (request, response) => {
   response.sendFile(`${__dirname}/views/index.html`);
+});
+
+// A test endpoint for parsing the OPML file in the public directory.
+app.get("/opml", async function(request, response) {
+  // Call the `getFeedsFromOPML` method in opmlparser.js
+  opmlparser.getFeedsFromOPML().then(data => {
+    const feeds = [];
+    
+    // For each feed we find in the OPML file, send it to the
+    // feed parser and add the response to the `feeds` array.
+    // If there are any errors, send them back to the client.
+    data.forEach((feed, index) => {
+      feedparser.parse(feed).then(items => {
+        feeds.push(items);
+        // When we get to the last feed, send the whole feed
+        // array back to the client.
+        if (index === data.length - 1) { response.send(feeds); }
+      }).catch(error => {
+        response.send({ error: error });
+      });
+    });
+  }).catch(error => {
+    response.send({ error: error });
+  });
 });
 
 // API endpoint to parse an RSS/Atom feed.

@@ -6,7 +6,6 @@ const request = require("request");
 exports.getFeedsFromOPML = () =>
   new Promise((resolve, reject) => {
     const opmlparser = new OpmlParser()
-    let counter = 0;
     let feedUrls = [];
 
     var opmlRequest = request(`https://${process.env.PROJECT_DOMAIN}.glitch.me/subscriptions.opml`);
@@ -30,16 +29,21 @@ exports.getFeedsFromOPML = () =>
       reject({ error: error });
     });
   
+    // If we get a `readable` event, then...
     opmlparser.on("readable", function () {
       let outline;
 
+      // ...so long as there's an outline item
+      // available to read.. 
       while (outline = this.read()) {
         if (outline['#type'] === "feed") {
-          counter++;
+          // ...add its feed URL to the `feedUrls` array.
           feedUrls.push(outline.xmlurl);
         }
       }
     });
+  
+    // When we're done, resolve the Promise and send back the `feedUrls` object.
     opmlparser.on("end", function () {
       resolve(feedUrls);
     });

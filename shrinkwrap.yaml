@@ -1,6 +1,6 @@
 dependencies:
   express: 4.17.1
-  feedparser: 2.2.9
+  feedparser: 2.2.10
   opmlparser: 0.8.0
   sqlite3: 4.1.1
 packages:
@@ -324,7 +324,7 @@ packages:
     dev: false
     resolution:
       integrity: sha512-lhd/wF+Lk98HZoTCtlVraHtfh5XYijIjalXck7saUtuanSDyLMxnHhSXEDJqHxD7msR8D0uCmqlkwjCV8xvwHw==
-  /feedparser/2.2.9:
+  /feedparser/2.2.10:
     dependencies:
       addressparser: 1.0.1
       array-indexofobject: 0.0.1
@@ -337,10 +337,10 @@ packages:
       sax: 1.2.4
     dev: false
     engines:
-      node: '>= 4.2.0'
+      node: '>= 10.18.1'
     hasBin: true
     resolution:
-      integrity: sha1-kTgZfa/a4F/K3eADa+6vYGbCxek=
+      integrity: sha512-WoAOooa61V8/xuKMi2pEtK86qQ3ZH/M72EEGdqlOTxxb3m6ve1NPvZcmPFs3wEDfcBbFLId2GqZ4YjsYi+h1xA==
   /finalhandler/1.1.2:
     dependencies:
       debug: 2.6.9
@@ -1207,6 +1207,6 @@ shrinkwrapMinorVersion: 9
 shrinkwrapVersion: 3
 specifiers:
   express: ^4.17.1
-  feedparser: ^2.2.9
+  feedparser: ^2.2.10
   opmlparser: ^0.8.0
   sqlite3: ^4.1.1

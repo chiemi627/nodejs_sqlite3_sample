@@ -6,6 +6,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const feedparser = require("./feedparser");
 const opmlparser = require("./opmlparser");
+const storage = require("./storageController")
 const app = express();
 const fs = require("fs");
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -23,29 +24,8 @@ const exists = fs.existsSync(dbFile);
 const sqlite3 = require("sqlite3").verbose();
 const db = new sqlite3.Database(dbFile);
 
-// if ./.data/sqlite.db does not exist, create it, otherwise print records to console
-db.serialize(() => {
-  if (!exists) {
-    db.run(
-      "CREATE TABLE Dreams (id INTEGER PRIMARY KEY AUTOINCREMENT, dream TEXT)"
-    );
-    console.log("New table Dreams created!");
-
-    // insert default dreams
-    db.serialize(() => {
-      db.run(
-        'INSERT INTO Dreams (dream) VALUES ("Find and count some sheep"), ("Climb a really tall mountain"), ("Wash the dishes")'
-      );
-    });
-  } else {
-    console.log('Database "Dreams" ready to go!');
-    db.each("SELECT * from Dreams", (err, row) => {
-      if (row) {
-        console.log(`record: ${row.dream}`);
-      }
-    });
-  }
-});
+// Initialize our persistent storage.
+storage.initialize();
 
 // http://expressjs.com/en/starter/basic-routing.html
 app.get("/", (request, response) => {
@@ -83,6 +63,8 @@ app.get("/api/parse/:feed", async function(request, response) {
     .parse(request.params.feed)
     .then(data => {
       // Success! Return the result to the API client.
+      const lastFetched = new Date();    
+      storage.insertNewestEntries(data);
       response.send(data);
     })
     .catch(error => {

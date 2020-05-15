@@ -13,6 +13,7 @@ exports.getFeedsFromOPML = () =>
     opmlRequest.on("error", function(error) {
       // Reject the Promise by returning an error, with the origin
       // of the error set to the request.
+      console.log("opmlRequest error!")
       reject({ error: error });
     });
   
@@ -26,6 +27,7 @@ exports.getFeedsFromOPML = () =>
     opmlparser.on("error", function(error) {
       // Reject the Promise by returning an error, with the origin
       // of the error set to the request.
+      console.log("opmlparser error!")
       reject({ error: error });
     });
   

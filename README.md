@@ -1,4 +1,19 @@
-# hello-sqlite
+# gitやらかしサンプル：glitchのhello-sqliteをもらってきました。
+
+手元で動かすには
+
+```
+% npm install
+% mkdir .data
+% npm start
+```
+
+で動くはず。
+
+だけど、このレポジトリには私の手元でこれを実行してできた全てのファイルをmaster push してます。
+さてみんなでこれを共有したら一体どうなっちゃうのか？
+
+
 
 A starter that has a database
 
